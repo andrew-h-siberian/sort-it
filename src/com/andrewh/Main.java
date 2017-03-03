@@ -33,7 +33,22 @@ public class Main {
         }
         System.out.println("Reading done");
         System.out.println(listToSort);
-        Collections.sort(listToSort);
+        //Collections.sort(listToSort);
+
+        //sorting
+        int current;
+        int prev;
+        for (int i = 1; i < listToSort.size(); i++) {
+            current = listToSort.get(i);
+            prev = i - 1;
+            while (prev >= 0 && listToSort.get(prev) > current) {
+                listToSort.set(prev + 1, listToSort.get(prev));
+                prev--;
+            }
+            listToSort.set(prev + 1, current);
+        }
+        //done sorting
+
         if (!ascending) {
             Collections.reverse(listToSort);
         }
@@ -63,7 +78,22 @@ public class Main {
         }
         System.out.println("Reading done");
         System.out.println(listToSort);
-        Collections.sort(listToSort);
+        //Collections.sort(listToSort);
+
+        //sorting
+        String current;
+        int prev;
+        for (int i = 1; i < listToSort.size(); i++) {
+            current = listToSort.get(i);
+            prev = i - 1;
+            while (prev >= 0 && listToSort.get(prev).compareTo(current) > 0) {
+                listToSort.set(prev + 1, listToSort.get(prev));
+                prev--;
+            }
+            listToSort.set(prev + 1, current);
+        }
+        //done sorting
+
         if (!ascending) {
             Collections.reverse(listToSort);
         }
@@ -84,7 +114,7 @@ public class Main {
             writer.close();
         } catch (IOException e) {
             System.out.println("Failed to write result to output file. Writing was not finished.");
-            System.out.println("При записи результатов в выходной файл произошел сбой. Запись не была завершена.");
+            //System.out.println("При записи результатов в выходной файл произошел сбой. Запись не была завершена.");
         }
     }
 
@@ -99,9 +129,8 @@ public class Main {
         if (args.length != 4) {
             System.out.println("You should pass 4 arguments exactly, but you have passed " + args.length);
             System.out.println("Run: \"sort-it -h\" to get more information\n");
-            System.out.println("Вам необходимо передать ровно 4 аргумента, но вы передали " + args.length);
-            System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
-            //return;
+            //System.out.println("Вам необходимо передать ровно 4 аргумента, но вы передали " + args.length);
+            //System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
             System.exit(0);
         }
 
@@ -111,8 +140,8 @@ public class Main {
         if (!(new File(args[0]).exists() && new File(args[0]).isFile())) {
             System.out.println("Input file that you have specified does not exist! (Specified input file is " + args[0] + ")");
             System.out.println("Run: \"sort-it -h\" to get more information\n");
-            System.out.println("Указанный вами входной файл не существует! (Указанный входной файл: " + args[0] + ")");
-            System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
+            //System.out.println("Указанный вами входной файл не существует! (Указанный входной файл: " + args[0] + ")");
+            //System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
             System.exit(0);
         }
 
@@ -122,8 +151,8 @@ public class Main {
         if (!(args[2].equals("-i") || args[2].equals("-s"))) {
             System.out.println("3rd argument should be \"-i\" or \"-s\", but you have passed " + args[2]);
             System.out.println("Run: \"sort-it -h\" to get more information\n");
-            System.out.println("3-им аргументом необходимо передать \"-i\" или \"-s\", а вы передали " + args[2]);
-            System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
+            //System.out.println("3-им аргументом необходимо передать \"-i\" или \"-s\", а вы передали " + args[2]);
+            //System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
             System.exit(0);
         }
 
@@ -133,8 +162,8 @@ public class Main {
         if (!(args[3].equals("-a") || args[3].equals("-d"))) {
             System.out.println("4th argument should be \"-a\" or \"-d\", but you have passed " + args[3]);
             System.out.println("Run: \"sort-it -h\" to get more information\n");
-            System.out.println("4-ым аргументом необходимо передать \"-a\" или \"-d\", а вы передали " + args[3]);
-            System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
+            //System.out.println("4-ым аргументом необходимо передать \"-a\" или \"-d\", а вы передали " + args[3]);
+            //System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
             System.exit(0);
         }
 
@@ -144,15 +173,15 @@ public class Main {
         if (new File(args[1]).exists() && new File(args[1]).isDirectory()) {
             System.out.println("Output file that you have specified can not be created, there is a directory " + args[0] + " (not a file)!");
             System.out.println("Run: \"sort-it -h\" to get more information\n");
-            System.out.println("Указанный вами выходной файл не может быть создан, существует такая директория " + args[0] + " (не файл)!");
-            System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
+            //System.out.println("Указанный вами выходной файл не может быть создан, существует такая директория " + args[0] + " (не файл)!");
+            //System.out.println("Запустите: \"sort-it -h\" для получения дополнительной информации");
             System.exit(0);
         }
         if (new File(args[1]).exists() && new File(args[1]).isFile()) {
             System.out.println("Output file that you have specified does already exist! (Specified output file is " + args[0] + ")");
             System.out.println("If you would like to overwrite it enter \"y\" (or \"Y\"), enter anything else to exit without overwriting.");
-            System.out.println("Указанный вами выходной файл уже существует! (Указанный выходной файл: " + args[0] + ")");
-            System.out.println("Если вы хотите перезаписать его введите \"y\" (или \"Y\"), введите что угодно другое для выхода без перезаписи.");
+            //System.out.println("Указанный вами выходной файл уже существует! (Указанный выходной файл: " + args[0] + ")");
+            //System.out.println("Если вы хотите перезаписать его введите \"y\" (или \"Y\"), введите что угодно другое для выхода без перезаписи.");
             System.out.println("\"Y\"?");
             Scanner userInput = new Scanner(System.in);
             if (!(userInput.nextLine().equalsIgnoreCase("y"))) {
@@ -190,7 +219,7 @@ public class Main {
         } catch (FileNotFoundException e) {
 
             //e.printStackTrace();
-            System.out.println("Error: problems opening input file ! (Ошибка: проблемы при открытии входного файла!)");
+            System.out.println("Error: problems opening input file!"); // (Ошибка: проблемы при открытии входного файла!)");
 
         } finally {
 
@@ -198,7 +227,7 @@ public class Main {
 
         }
 
-        //TODO If resultIntegersList is not empty (not NUll)??Do it in next try block??
+        //If resultIntegersList is not empty (not NUll)??Do it outside try block (in it's own)??
 
     }
 }
