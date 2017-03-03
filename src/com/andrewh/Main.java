@@ -2,15 +2,18 @@ package com.andrewh;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.util.Collections;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
 
-    static List readAsIntegersAndSort(Scanner scToRead, Boolean ascending) {
-        String sortOrder = null;
+    private static List<Integer> readAsIntegersAndSort(Scanner scToRead, Boolean ascending) {
+        String sortOrder;// = null;
         if (ascending) {
             sortOrder = "ascending";
         }
@@ -30,12 +33,17 @@ public class Main {
         }
         System.out.println("Reading done");
         System.out.println(listToSort);
+        Collections.sort(listToSort);
+        if (!ascending) {
+            Collections.reverse(listToSort);
+        }
+        System.out.println("Sorting done");
         return(listToSort);
     }
 
 
-    static String readAsStringsAndSort (File fileToReadAsStrings, Boolean ascending) {
-        String sortOrder = null;
+    private static List<String> readAsStringsAndSort (Scanner scToRead, Boolean ascending) {
+        String sortOrder;// = null;
         if (ascending) {
             sortOrder = "ascending";
         }
@@ -43,12 +51,41 @@ public class Main {
             sortOrder = "descending";
         }
         System.out.println("Sorting as a set of strings. Order - " + sortOrder);
-        return("Null return.");
+
+        if (!(scToRead.hasNext())) {
+            System.out.println("File has no data!");
+            return(null);
+        }
+
+        List<String> listToSort = new ArrayList<String>();
+        while(scToRead.hasNext()) {
+            listToSort.add(scToRead.next());
+        }
+        System.out.println("Reading done");
+        System.out.println(listToSort);
+        Collections.sort(listToSort);
+        if (!ascending) {
+            Collections.reverse(listToSort);
+        }
+        System.out.println("Sorting done");
+        return(listToSort);
     }
 
 
-    static void writeResultToFile (File fileToWrite) {
-        //TODO
+    private static void writeResultToFile(String outputFile, List<?> contentToWrite) {
+
+        try {
+            FileWriter writer = new FileWriter(outputFile);
+            for (int i = 0; i < contentToWrite.size(); i++) {
+                writer.write(contentToWrite.get(i).toString());
+                writer.write("\r\n");
+            }
+            writer.flush();
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Failed to write result to output file. Writing was not finished.");
+            System.out.println("При записи результатов в выходной файл произошел сбой. Запись не была завершена.");
+        }
     }
 
 
@@ -130,25 +167,39 @@ public class Main {
 
         Scanner sc = null;
         try {
+
             File fileToSort = new File(args[0]);
             sc = new Scanner(fileToSort);
             //Let's use ArrayList 'cause we will fill it from file and will not change number (quantity) of elements
-            List<Integer> resultList = new ArrayList<Integer>();
             System.out.println("File opened. (Файл открыт.)");
+
             if (args[2].equals("-i")) {
-                System.out.println("Starting to sort file as a set of integers");
-                resultList = readAsIntegersAndSort(sc, args[3].equals("-a"));
-                //TODO ЗДЕСЬ ПОЛУЧАЕМ РЕЗУЛЬТАТ СОРТИРОВКИ В ВИДЕ List. Надо записать его в output file
-                System.out.println(resultList.toString());
+                List<Integer> resultIntegersList = new ArrayList<Integer>();
+                System.out.println("Starting to read file and sort it as a set of integers");
+                resultIntegersList = readAsIntegersAndSort(sc, args[3].equals("-a"));
+                System.out.println(resultIntegersList.toString());
+                writeResultToFile(args[1], resultIntegersList);
             } else if (args[2].equals("-s")) {
-                //System.out.println("Sorting file as a set of strings");
-                //sortAsStrings();
+                List<String> resultStringsList = new ArrayList<String>();
+                System.out.println("Starting to read file and sort it as a set of strings");
+                resultStringsList = readAsStringsAndSort(sc, args[3].equals("-a"));
+                System.out.println(resultStringsList.toString());
+                writeResultToFile(args[1], resultStringsList);
             }
+
         } catch (FileNotFoundException e) {
+
+            //e.printStackTrace();
             System.out.println("Error: problems opening input file ! (Ошибка: проблемы при открытии входного файла!)");
+
         } finally {
-        sc.close();
+
+            sc.close();
+
         }
+
+        //TODO If resultIntegersList is not empty (not NUll)??Do it in next try block??
+
     }
 }
 
