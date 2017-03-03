@@ -49,7 +49,7 @@ public class Main {
         }
 
         //check if 1st argument is valid
-        if (!(new File(args[0]).exists())) {
+        if (!(new File(args[0]).exists() && new File(args[0]).isFile())) {
             System.out.println("Input file that you have specified does not exist! (Specified input file is " + args[0] + ")");
             System.out.println("Run: \"sort-it -h\" to get more information\n");
             System.out.println("Указанный вами входной файл не существует! (Указанный входной файл: " + args[0] + ")");
@@ -57,14 +57,19 @@ public class Main {
             System.exit(0);
         }
 
-        //check if 2nd argument is valid
+        //check if 2nd argument is valid / if specified output file already exists
         if (new File(args[1]).exists()) {
             System.out.println("Output file that you have specified does already exist! (Specified output file is " + args[0] + ")");
-            System.out.println("If you would like to overwrite it press \"y\" (\"Y\"), press any other key to exit without overwriting.");
+            System.out.println("If you would like to overwrite it enter \"y\" (\"Y\"), enter anything else to exit without overwriting.");
             System.out.println("Указанный вами выходной файл уже существует! (Указанный выходной файл: " + args[0] + ")");
-            System.out.println("Если вы хотите перезаписать его нажмите \"y\" (\"Y\"), нажмите любую другую кнопку для выхода без перезаписи.");
+            System.out.println("Если вы хотите перезаписать его введите \"y\" (\"Y\"), введите что угодно другое для выхода без перезаписи.");
             System.out.println("\"Y\"?");
-
+            Scanner userInput = new Scanner(System.in);
+            if (!(userInput.nextLine().equalsIgnoreCase("y"))) {
+                System.exit(0);
+            } else {
+                userInput.close();
+            }
         }
 
         //if 3rd argument is not valid (not "-i" or "-s") | проверяем валидность третьего аргумента
@@ -121,10 +126,7 @@ public class Main {
             //TODO
 
         } finally {
-
             sc.close();
-            //System.out.println("Ok! File closed. (Файл закрыт.)");
-
         }
     }
 }
