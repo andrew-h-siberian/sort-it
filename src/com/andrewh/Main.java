@@ -163,7 +163,7 @@ public class Main {
         }
 
 
-        //Starting to open&read(&sort) file
+        //Starting to open&read(&sort... together) file
 
         Scanner sc = null;
         try {
